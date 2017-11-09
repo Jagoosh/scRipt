@@ -227,7 +227,11 @@ if(length(files) > 0) for(file in files) {
   }
   
   write_csv(accounts, "DB_accounts.csv")
-  write_csv(accounts_stat, "DB_accounts_stat.csv")
+  write_csv(
+    accounts_stat %>% 
+      mutate_at(vars(-contains("b_type"), -contains("avg_")), as.integer),
+    "DB_accounts_stat.csv"
+  )
   
   files_parsed <-
     c(files_parsed, file) %>% sort() %>% unique()
@@ -311,7 +315,11 @@ if(length(files) > 0) for(file in files) {
     tanks_stat <- tmp_tanks_stat
   }
   
-  write_csv(tanks_stat, "DB_tanks_stat.csv")
+  write_csv(
+    tanks_stat %>% 
+      mutate_at(-contains("b_type"), vars(-contains("avg_")), as.integer),
+    "DB_tanks_stat.csv"
+  )
   
   files_parsed <- 
     c(files_parsed, file) %>% sort() %>% unique()
